@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Controle de Férias SE MMA</title>
+    <script src="https://cdn.tailwindcss.com "></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            position: relative;
+            min-width: 60px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .vacation-block {
+            position: absolute;
+            top: 2px;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            overflow: hidden;
+            white-space: nowrap;
+            border-radius: 4px;
+            color: #10b981;
+            background-color: #a7f3d0;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .conflict .vacation-block {
+            background-color: #fca5a5;
+            color: #ef4444;
+        }
+        .tooltip {
+            visibility: hidden;
+            width: max-content;
+            background: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 4px 8px;
+            position: absolute;
+            z-index: 20;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.7rem;
+        }
+        .tooltip.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #059669;
+        }
+        .btn-red {
+            background-color: #ef4444;
+        }
+        .btn-red:hover {
+            background-color: #dc2626;
+        }
+    </style>
+</head>
+<body class="p-4 bg-gray-100">
+
+    <h1 class="text-2xl font-bold mb-4">Controle de Férias SE MMA</h1>
+
+    <!-- Formulário -->
+    <div class="mb-6 bg-white p-4 rounded-md shadow-md">
+        <h2 class="text-xl font-semibold mb-3">Adicionar Novas Férias</h2>
+        <form id="add-vacation-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div class="form-group">
+                <label for="employee-name">Nome do Servidor:</label>
+                <input type="text" id="employee-name" required>
+            </div>
+            <div class="form-group">
+                <label for="start-date">Data de Início:</label>
+                <input type="date" id="start-date" required>
+            </div>
+            <div class="form-group">
+                <label for="end-date">Data de Fim:</label>
+                <input type="date" id="end-date" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn w-full">Adicionar Férias</button>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="exportToCSV()" class="btn w-full bg-yellow-500 hover:bg-yellow-600">Exportar CSV</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Seletor de Ano -->
+    <div class="mb-4 flex items-center space-x-4">
+        <label for="year-select" class="font-bold">Ano:</label>
+        <select id="year-select" class="p-2 border border-gray-300 rounded-md"></select>
+    </div>
+
+    <!-- Tabela de Calendário -->
+    <div id="vacation-table-container" class="overflow-x-auto rounded-md shadow-md">
+        <table id="vacation-table" class="bg-white w-full table-auto">
+            <thead>
+                <tr>
+                    <th class="sticky left-0 bg-gray-200 z-10">Nome</th>
+                    <th class="month-header">Jan</th>
+                    <th class="month-header">Fev</th>
+                    <th class="month-header">Mar</th>
+                    <th class="month-header">Abr</th>
+                    <th class="month-header">Mai</th>
+                    <th class="month-header">Jun</th>
+                    <th class="month-header">Jul</th>
+                    <th class="month-header">Ago</th>
+                    <th class="month-header">Set</th>
+                    <th class="month-header">Out</th>
+                    <th class="month-header">Nov</th>
+                    <th class="month-header">Dez</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
